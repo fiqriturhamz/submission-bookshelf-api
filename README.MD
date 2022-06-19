@@ -1,4 +1,6 @@
 # **Submission Bookshelf API**
+Capstone Proyek For Submission "Belajar Membuat Aplikasi Backend Untuk Pemula" <br/>
+Created by : Muhammad Fiqri Turham
 ## Kriteria 1 : API dapat menyimpan buku
 1. API harus dapat menyimpan buku melalui route: <br/>
     Method : POST <br/>
