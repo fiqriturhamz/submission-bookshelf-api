@@ -36,8 +36,8 @@ const addBookHandler = (request, h) => {
 
 
     const id = nanoid(16);
-    const insertAt = new Date().toISOString();
-    const updatedAt = insertAt;
+    const insertedAt = new Date().toISOString();
+    const updatedAt = insertedAt;
     const finished = pageCount === readPage;
 
 
@@ -52,7 +52,7 @@ const addBookHandler = (request, h) => {
         readPage,
         finished,
         reading,
-        insertAt,
+        insertedAt,
         updatedAt
     }
 
@@ -88,7 +88,7 @@ const addBookHandler = (request, h) => {
 const getAllBooksHandler = () => ({
     status: 'success',
     data: [
-        notes,
+        books,
     ]
 })
 
@@ -110,7 +110,7 @@ const getBookByIdHandler = (request, h) => {
     }
     const response = h.response({
         status: 'fail',
-        message: 'Catatan tidak ditemukan',
+        message: 'Buku tidak ditemukan',
     });
     response.code(404);
     return response;
@@ -180,7 +180,7 @@ const editBookByIdHandler = (request, h) => {
         };
         const response = h.response({
             status: 'success',
-            message: 'Catatan berhasil diperbarui',
+            message: 'Buku berhasil diperbarui',
         });
         response.code(200);
         return response;
@@ -201,7 +201,7 @@ const deleteBookByIdHandler = (request, h) => {
         books.splice(index, 1);
         const response = h.response({
             status: 'success',
-            message: 'Catatan berhasil dihapus',
+            message: 'Buku berhasil dihapus',
 
         });
         response.code(200);
@@ -210,7 +210,7 @@ const deleteBookByIdHandler = (request, h) => {
 
     const response = h.response({
         status: 'fail',
-        message: 'Catatan gagal dihapus.Id tidak ditemukan',
+        message: 'Buku gagal dihapus.Id tidak ditemukan',
 
     });
     response.code(404);
