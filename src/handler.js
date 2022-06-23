@@ -18,8 +18,8 @@ const addBookHandler = (request, h) => {
 
     if (name === undefined) {
         const response = h.response({
-            status: 'fail',
-            message: 'Gagal menambahkan buku.mohon isi nama buku',
+            status: "fail",
+            message: "Gagal menambahkan buku. Mohon isi nama buku",
         });
         response.code(400);
         return response;
@@ -85,12 +85,76 @@ const addBookHandler = (request, h) => {
 
 
 //menampilkan isi buku
-const getAllBooksHandler = () => ({
-    status: 'success',
-    data: [
-        books,
-    ]
-})
+const getAllBooksHandler = (request, h) => {
+    const {
+        name,
+        reading,
+        finished
+    } = request.query;
+
+
+    if (name) {
+        const book = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
+        const response = h.response({
+            status: "success",
+            books: book.map((book) => ({
+                id: book.id,
+                name: book.name,
+                publisher: book.publisher,
+            })),
+        });
+        response.code(200);
+        return response;
+    }
+
+
+    if (reading) {
+        const book = books.filter((book) => Number(book.reading) === Number(reading));
+        const response = h.response({
+            status: "success",
+            data: {
+                books: book.map((book) => ({
+                    id: book.id,
+                    name: book.name,
+                    publisher: book.publisher,
+                })),
+            },
+        });
+        response.code(200);
+        return response;
+    }
+
+
+    if (finished) {
+        const book = books.filter((book) => Number(book.finished) === Number(finished));
+        const response = h.response({
+            status: "success",
+            data: {
+                books: book.map((book) => ({
+                    id: book.id,
+                    name: book.name,
+                    publisher: book.publisher,
+                })),
+            },
+        });
+        response.code(200);
+        return response;
+    }
+
+    const response = h.response({
+        status: "success",
+        data: {
+            books: books.map((book) => ({
+                id: book.id,
+                name: book.name,
+                publisher: book.publisher
+            })),
+        }
+    });
+    response.code(200);
+    return response;
+
+};
 
 
 //menampilkan isi buku berdasarkan ID
@@ -131,15 +195,15 @@ const editBookByIdHandler = (request, h) => {
         readPage,
         reading
     } = request.payload;
-    const updatedAt = new Date().toISOString;
+    const updatedAt = new Date().toISOString();
     const finished = pageCount === readPage;
 
     const index = books.findIndex((book) => book.id === id);
 
     if (name === undefined) {
         const response = h.response({
-            status: 'fail',
-            message: 'Gagal memperbarui buku.mohon isi nama buku',
+            status: "fail",
+            message: "Gagal memperbarui buku. Mohon isi nama buku",
         });
         response.code(400);
         return response;
@@ -148,7 +212,7 @@ const editBookByIdHandler = (request, h) => {
     if (readPage > pageCount) {
         const response = h.response({
             status: 'fail',
-            message: 'Gagal memperbarui buku.readPage tidak boleh lebih besar dari pageCount',
+            message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
         });
         response.code(400);
         return response;
@@ -156,8 +220,8 @@ const editBookByIdHandler = (request, h) => {
 
     if (index === -1) {
         const response = h.response({
-            status: 'fail',
-            message: 'Gagal memperbarui buku.Id tidak ditemukan',
+            status: "fail",
+            message: "Gagal memperbarui buku. Id tidak ditemukan"
         });
         response.code(404);
         return response;
@@ -210,7 +274,7 @@ const deleteBookByIdHandler = (request, h) => {
 
     const response = h.response({
         status: 'fail',
-        message: 'Buku gagal dihapus.Id tidak ditemukan',
+        message: "Buku gagal dihapus. Id tidak ditemukan",
 
     });
     response.code(404);
